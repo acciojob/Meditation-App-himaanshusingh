@@ -1,1 +1,84 @@
 /*  your css code here. If applicable */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  place-content: center;
+}
+.vid-container {
+  width: 100vw;
+  height: 100vh;
+}
+video {
+  width: 100vw;
+  height: 99.4vh;
+  object-fit: cover;
+  background-color:black;
+}
+.player-container audio {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translateX(-50%);
+}
+.sound-picker {
+  position: absolute;
+  top: 150px;
+  right: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 300px;
+}
+.sound-picker input {
+  font-size: 24px;
+  scale: 4;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+#time-select input {
+  position: absolute;
+  font-size: 24px;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ececec;
+  background: transparent;
+  color: white;
+  width: 160px;
+}
+#smaller-mins {
+  top: 150px;
+  left: 50px;
+}
+#medium-mins {
+  top: 340px;
+  left: 50px;
+}
+#long-mins {
+  bottom: 150px;
+  left: 50px;
+}
+.time-display {
+  position: absolute;
+  color: white;
+  bottom: 150px;
+  font-size: 24px;
+}
+.play {
+  position: absolute;
+  font-size: 24px;
+  padding: 10px;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+  color: white;
+  top: 495px;
+  background-color: transparent;
+}

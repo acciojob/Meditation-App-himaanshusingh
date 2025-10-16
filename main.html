@@ -1,16 +1,35 @@
 <!DOCTYPE html>
-
-<html>
-
-<head>
-	<link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
-
-</body>
-
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name=" viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="practice.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="vid-container">
+        <video src="sample-video.mp4" muted></video>
+        <!-- <video src="video/beach.mp4" controls muted></video> -->
+        <!-- <video src="video/rain.mp4" controls muted></video> -->
+      </div>
+      <div class="player-container">
+        <audio src="sample-music.mp3" controls muted></audio>
+        <!-- <audio src="audio/beach.mp3" controls muted></audio> -->
+        <!-- <audio src="audio/rain.mp3" controls muted></audio> -->
+      </div>
+      <div class="sound-picker">
+        <input type="button" value="☁️" id="night" />
+        <input type="button" value="☀️" id="day" />
+      </div>
+      <div id="time-select">
+        <input type="button" value="2 Minutes" id="smaller-mins" />
+        <input type="button" value="5 Minutes" id="medium-mins" />
+        <input type="button" value="10 Minutes" id="long-mins" />
+      </div>
+      <div class="time-display">10:0</div>
+      <input type="button" value="Play" class="play" />
+    </div>
+  </body>
 </html>

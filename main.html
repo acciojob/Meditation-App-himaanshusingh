@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name=" viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="practice.css" />
@@ -11,13 +11,9 @@
     <div class="app">
       <div class="vid-container">
         <video src="sample-video.mp4" muted></video>
-        <!-- <video src="video/beach.mp4" controls muted></video> -->
-        <!-- <video src="video/rain.mp4" controls muted></video> -->
       </div>
       <div class="player-container">
         <audio src="sample-music.mp3" controls muted></audio>
-        <!-- <audio src="audio/beach.mp3" controls muted></audio> -->
-        <!-- <audio src="audio/rain.mp3" controls muted></audio> -->
       </div>
       <div class="sound-picker">
         <button type="button" id="night">☁️</button>
@@ -28,8 +24,13 @@
         <button type="button" id="medium-mins">5 Minutes</button>
         <button type="button" id="long-mins">10 Minutes</button>
       </div>
-      <div class="time-display">9:59</div>
-      <button type="button" value="Play" class="play"></button>
+      <!-- Fixed: Changed initial time display to 10:0 -->
+      <div class="time-display">10:0</div>
+      <!-- Fixed: Added text content to play button -->
+      <button type="button" class="play">Play</button>
     </div>
+    <script>
+      // Your debugged JS code goes here
+    </script>
   </body>
 </html>

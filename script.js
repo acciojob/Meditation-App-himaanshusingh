@@ -1,6 +1,6 @@
 // Get DOM elements
 const night = document.getElementById("night");
-const day = document.querySelector("#day");
+const day = document.getElementById("day");
 const playBtn = document.querySelector(".play");
 const timeDisplay = document.querySelector(".time-display");
 const smallerMins = document.getElementById("smaller-mins");
@@ -15,116 +15,134 @@ let isPlaying = false;
 let countdown;
 let currentSound = "rain"; // Default sound
 
-// Update time display
+// Update time display - FIXED: Proper time formatting
 function updateTimeDisplay() {
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    // Fixed: Remove leading zero for seconds to match test expectation "10:0"
-    timeDisplay.textContent = `${minutes}:${seconds}`;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  // Format seconds to always show 2 digits
+  const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+  timeDisplay.textContent = `${minutes}:${formattedSeconds}`;
 }
 
-// Start countdown timer
+// Start countdown timer - FIXED: Proper timer logic
 function startTimer() {
-    clearInterval(countdown);
+  clearInterval(countdown);
 
-    countdown = setInterval(() => {
-        if (totalSeconds <= 0) {
-            clearInterval(countdown);
-            resetMeditation();
-            return;
-        }
+  // Update display immediately when starting
+  updateTimeDisplay();
 
-        totalSeconds--;
-        updateTimeDisplay();
-    }, 1000);
+  countdown = setInterval(() => {
+    if (totalSeconds <= 0) {
+      clearInterval(countdown);
+      resetMeditation();
+      return;
+    }
+
+    totalSeconds--;
+    updateTimeDisplay();
+  }, 1000);
 }
 
 // Reset meditation to initial state
 function resetMeditation() {
-    isPlaying = false;
-    // Fixed: Use textContent instead of value for button
-    playBtn.textContent = "Play";
-    audio.pause();
-    audio.currentTime = 0;
-    video.pause();
-    video.currentTime = 0;
-    clearInterval(countdown);
+  isPlaying = false;
+  playBtn.textContent = "Play";
+  audio.pause();
+  audio.currentTime = 0;
+  video.pause();
+  video.currentTime = 0;
+  clearInterval(countdown);
 }
 
 // Play/pause functionality
 playBtn.addEventListener("click", () => {
-    if (!isPlaying) {
-        // Start meditation
-        isPlaying = true;
-        // Fixed: Use textContent for button
-        playBtn.textContent = "Pause";
-        video.play();
-        audio.play();
-        startTimer();
-    } else {
-        // Pause meditation
-        isPlaying = false;
-        // Fixed: Use textContent for button
-        playBtn.textContent = "Play";
-        video.pause();
-        audio.pause();
-        clearInterval(countdown);
-    }
+  if (!isPlaying) {
+    // Start meditation
+    isPlaying = true;
+    playBtn.textContent = "Pause";
+
+    // Ensure video and audio are ready to play
+    video.play().catch((e) => console.log("Video play error:", e));
+    audio.play().catch((e) => console.log("Audio play error:", e));
+
+    startTimer();
+  } else {
+    // Pause meditation
+    isPlaying = false;
+    playBtn.textContent = "Play";
+    video.pause();
+    audio.pause();
+    clearInterval(countdown);
+  }
 });
 
 // Sound picker functionality
 night.addEventListener("click", () => {
-    currentSound = "rain";
-    video.src = "video/rain.mp4";
-    audio.src = "audio/rain.mp3";
-    // Preload the new sources
-    video.load();
-    audio.load();
-    if (isPlaying) {
-        video.play();
-        audio.play();
-    }
+  currentSound = "rain";
+  video.src = "Sounds and videos/rain.mp4";
+  audio.src = "Sounds and videos/rain.mp3";
+  // Preload the new sources
+  video.load();
+  audio.load();
+  if (isPlaying) {
+    video.play().catch((e) => console.log("Video play error:", e));
+    audio.play().catch((e) => console.log("Audio play error:", e));
+  }
 });
 
 day.addEventListener("click", () => {
-    currentSound = "beach";
-    video.src = "video/beach.mp4";
-    audio.src = "audio/beach.mp3";
-    // Preload the new sources
-    video.load();
-    audio.load();
-    if (isPlaying) {
-        video.play();
-        audio.play();
-    }
+  currentSound = "beach";
+  video.src = "Sounds and videos/beach.mp4";
+  audio.src = "Sounds and videos/beach.mp3";
+  // Preload the new sources
+  video.load();
+  audio.load();
+  if (isPlaying) {
+    video.play().catch((e) => console.log("Video play error:", e));
+    audio.play().catch((e) => console.log("Audio play error:", e));
+  }
 });
 
 // Time selection functionality
 smallerMins.addEventListener("click", () => {
-    totalSeconds = 120; // 2 minutes
-    updateTimeDisplay();
-    resetMeditation();
+  totalSeconds = 120; // 2 minutes
+  updateTimeDisplay();
+  resetMeditation();
 });
 
 mediumMins.addEventListener("click", () => {
-    totalSeconds = 300; // 5 minutes
-    updateTimeDisplay();
-    resetMeditation();
+  totalSeconds = 300; // 5 minutes
+  updateTimeDisplay();
+  resetMeditation();
 });
 
 longMins.addEventListener("click", () => {
-    totalSeconds = 600; // 10 minutes
-    updateTimeDisplay();
-    resetMeditation();
+  totalSeconds = 600; // 10 minutes
+  updateTimeDisplay();
+  resetMeditation();
 });
 
 // Initialize with default values
-// Fixed: Set initial time display to 10:0 to match test expectation
-video.src = "video/rain.mp4";
-audio.src = "audio/rain.mp3";
+function initializeApp() {
+  // Set initial sources
+  video.src = "Sounds and videos/rain.mp4";
+  audio.src = "Sounds and videos/rain.mp3";
 
-// Fixed: Set initial button text content
-playBtn.textContent = "Play";
+  // Set video to loop and autoplay (muted)
+  video.loop = true;
+  video.muted = true;
+  audio.loop = true;
 
-// Fixed: Initialize time display with correct format
-updateTimeDisplay();
+  // Load initial sources
+  video.load();
+  audio.load();
+
+  // Set initial button text
+  playBtn.textContent = "Play";
+
+  // Initialize time display with correct format
+  updateTimeDisplay();
+}
+
+// Initialize the app when the page loads
+window.addEventListener("load", initializeApp);

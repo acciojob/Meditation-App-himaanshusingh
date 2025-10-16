@@ -4,7 +4,7 @@
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
-.app {
+#app {
   width: 100vw;
   height: 100vh;
   position: relative;
@@ -15,17 +15,18 @@
 .vid-container {
   width: 100vw;
   height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 video {
   width: 100vw;
-  height: 99.4vh;
+  height: 100vh;
   object-fit: cover;
 }
-.player-container audio {
-  position: absolute;
-  top: 50vh;
-  left: 50vw;
-  transform: translateX(-50%);
+.player-container {
+  display: none; /* Hide the audio controls as we control it via JS */
 }
 .sound-picker {
   position: absolute;
@@ -71,7 +72,9 @@ button {
   position: absolute;
   color: white;
   bottom: 150px;
-  font-size: 24px;
+  font-size: 50px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .play {
   position: absolute;
@@ -82,4 +85,7 @@ button {
   color: white;
   top: 495px;
   background-color: transparent;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
 }

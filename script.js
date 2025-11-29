@@ -104,6 +104,3 @@ controlBtn.addEventListener("click", () => {
     } else pauseAll();
   }
 });
-
-// Initialize display
-updateTimeDisplay();

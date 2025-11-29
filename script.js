@@ -4,9 +4,9 @@ const rainSound = document.getElementById("rain-sound");
 const beachSound = document.getElementById("beach-sound");
 const rainBtn = document.getElementById("rain-btn");
 const beachBtn = document.getElementById("beach-btn");
-const smallerMinsBtn = document.getElementById("smaller-mins");
-const mediumMinsBtn = document.getElementById("medium-mins");
-const longMinsBtn = document.getElementById("long-mins");
+const smallerMinsBtn = document.querySelector(".smaller-mins");
+const mediumMinsBtn = document.querySelector(".medium-mins");
+const longMinsBtn = document.querySelector(".long-mins");
 const timeDisplay = document.querySelector(".time-display");
 const controlBtn = document.querySelector(".play");
 

@@ -45,6 +45,20 @@ function startCountdown() {
   }, 1000);
 }
 
+function safePlay(media) {
+  if (!media) return;
+  try {
+    const p = media.play();
+    if (p && typeof p.catch === "function") {
+      p.catch((err) => {
+        if (err.name !== "NotSupportedError") throw err;
+      });
+    }
+  } catch (err) {
+    if (err.name !== "NotSupportedError") throw err;
+  }
+}
+
 function pauseAll() {
   rainVideo.pause();
   rainSound.pause();
@@ -76,17 +90,20 @@ longMinsBtn.onclick = () => {
 controlBtn.addEventListener("click", () => {
   if (beachVideo.style.display == "block") {
     if (beachVideo.paused) {
-      beachVideo.play();
-      beachSound.play();
+      safePlay(beachVideo);
+      safePlay(beachSound);
       startCountdown();
       controlBtn.textContent = "Pause";
     } else pauseAll();
   } else {
     if (rainVideo.paused) {
-      rainVideo.play();
-      rainSound.play();
+      safePlay(rainVideo);
+      safePlay(rainSound);
       startCountdown();
       controlBtn.textContent = "Pause";
     } else pauseAll();
   }
 });
+
+// Initialize display
+updateTimeDisplay();

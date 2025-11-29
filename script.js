@@ -34,7 +34,7 @@ let isBeachActive = false;
 function updateTimeDisplay() {
   const mins = Math.floor(countdown / 60);
   const secs = countdown % 60;
-  timeDisplay.textContent = `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+  timeDisplay.textContent = `${mins}:${secs}`;
 }
 
 function startCountdown() {

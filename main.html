@@ -3,29 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meditation App</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      video {
+        width: 400px;
+        height: 300px;
+        object-fit: cover;
+      }
+      .none {
+        display: none;
+      }
+      button {
+        font-size: 18px;
+        padding: 5px;
+        cursor: pointer;
+        margin: 5px;
+      }
+    </style>
   </head>
   <body>
     <div id="app">
       <div class="vid-container">
-        <video loop muted autoplay></video>
+        <video src="video/rain.mp4" id="rain-video"></video>
+        <video src="video/beach.mp4" id="beach-video" class="none"></video>
       </div>
       <div class="player-container">
-        <audio loop></audio>
+        <audio src="Sounds/rain.mp3" id="rain-sound"></audio>
+        <audio src="Sounds/beach.mp3" id="beach-sound" class="none"></audio>
       </div>
       <div class="sound-picker">
-        <button type="button" id="night">☁️</button>
-        <button type="button" id="day">☀️</button>
+        <button id="rain-btn">Rain</button>
+        <button id="beach-btn">Beach</button>
       </div>
-      <div id="time-select" class="time-select">
-        <button type="button" id="smaller-mins">2 Minutes</button>
-        <button type="button" id="medium-mins">5 Minutes</button>
-        <button type="button" id="long-mins">10 Minutes</button>
+      <div id="time-select">
+        <button id="smaller-mins">2 Minutes</button>
+        <button id="medium-mins">5 Minutes</button>
+        <button id="long-mins">10 Minutes</button>
       </div>
-      <div class="time-display">10:00</div>
-      <button type="button" class="play">Play</button>
     </div>
+    <div class="time-display">10:0</div>
+    <button class="play">Play</button>
     <script src="script.js"></script>
   </body>
 </html>

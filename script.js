@@ -1,148 +1,95 @@
-// Get DOM elements
-const night = document.getElementById("night");
-const day = document.getElementById("day");
-const playBtn = document.querySelector(".play");
+const rainVideo = document.getElementById("rain-video");
+const beachVideo = document.getElementById("beach-video");
+const rainSound = document.getElementById("rain-sound");
+const beachSound = document.getElementById("beach-sound");
+const rainBtn = document.getElementById("rain-btn");
+const beachBtn = document.getElementById("beach-btn");
+const smallerMinsBtn = document.getElementById("smaller-mins");
+const mediumMinsBtn = document.getElementById("medium-mins");
+const longMinsBtn = document.getElementById("long-mins");
 const timeDisplay = document.querySelector(".time-display");
-const smallerMins = document.getElementById("smaller-mins");
-const mediumMins = document.getElementById("medium-mins");
-const longMins = document.getElementById("long-mins");
-const video = document.querySelector("video");
-const audio = document.querySelector("audio");
+const controlBtn = document.querySelector(".play");
 
-// Initialize variables
-let totalSeconds = 600; // 10 minutes default
-let isPlaying = false;
-let countdown;
-let currentSound = "rain"; // Default sound
+// Sound selection
+rainBtn.onclick = () => {
+  beachVideo.style.display = "none";
+  beachSound.style.display = "none";
+  rainVideo.style.display = "block";
+  rainSound.style.display = "block";
+  isBeachActive = false;
+};
 
-// Update time display - FIXED: Proper time formatting
+beachBtn.onclick = () => {
+  rainVideo.style.display = "none";
+  rainSound.style.display = "none";
+  beachVideo.style.display = "block";
+  beachSound.style.display = "block";
+  isBeachActive = true;
+};
+
+let countdown = 600; // default 10 minutes in seconds
+let intervalId = null;
+let isBeachActive = false;
+
 function updateTimeDisplay() {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  // Format seconds to always show 2 digits
-  const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
-  timeDisplay.textContent = `${minutes}:${formattedSeconds}`;
+  const mins = Math.floor(countdown / 60);
+  const secs = countdown % 60;
+  timeDisplay.textContent = `${mins}:${secs < 10 ? "0" : ""}${secs}`;
 }
 
-// Start countdown timer - FIXED: Proper timer logic
-function startTimer() {
-  clearInterval(countdown);
-
-  // Update display immediately when starting
-  updateTimeDisplay();
-
-  countdown = setInterval(() => {
-    if (totalSeconds <= 0) {
-      clearInterval(countdown);
-      resetMeditation();
-      return;
-    }
-
-    totalSeconds--;
-    updateTimeDisplay();
+function startCountdown() {
+  if (intervalId) clearInterval(intervalId);
+  intervalId = setInterval(() => {
+    if (countdown > 0) countdown--, updateTimeDisplay();
+    else pauseAll(), clearInterval(intervalId);
   }, 1000);
 }
 
-// Reset meditation to initial state
-function resetMeditation() {
-  isPlaying = false;
-  playBtn.textContent = "Play";
-  audio.pause();
-  audio.currentTime = 0;
-  video.pause();
-  video.currentTime = 0;
-  clearInterval(countdown);
+function pauseAll() {
+  rainVideo.pause();
+  rainSound.pause();
+  beachVideo.pause();
+  beachSound.pause();
+  controlBtn.textContent = "Play";
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
 }
 
-// Play/pause functionality
-playBtn.addEventListener("click", () => {
-  if (!isPlaying) {
-    // Start meditation
-    isPlaying = true;
-    playBtn.textContent = "Pause";
+// Timer selection
+smallerMinsBtn.onclick = () => {
+  countdown = 120; // 2 minutes
+  updateTimeDisplay();
+};
 
-    // Ensure video and audio are ready to play
-    video.play().catch((e) => console.log("Video play error:", e));
-    audio.play().catch((e) => console.log("Audio play error:", e));
+mediumMinsBtn.onclick = () => {
+  countdown = 300; // 5 minutes
+  updateTimeDisplay();
+};
 
-    startTimer();
+longMinsBtn.onclick = () => {
+  countdown = 600; // 10 minutes
+  updateTimeDisplay();
+};
+
+controlBtn.addEventListener("click", () => {
+  if (beachVideo.style.display == "block") {
+    if (beachVideo.paused) {
+      beachVideo.play();
+      beachSound.play();
+      startCountdown();
+      controlBtn.textContent = "Pause";
+    } else pauseAll();
   } else {
-    // Pause meditation
-    isPlaying = false;
-    playBtn.textContent = "Play";
-    video.pause();
-    audio.pause();
-    clearInterval(countdown);
+    if (rainVideo.paused) {
+      rainVideo.play();
+      rainSound.play();
+      startCountdown();
+      controlBtn.textContent = "Pause";
+    } else pauseAll();
   }
 });
 
-// Sound picker functionality
-night.addEventListener("click", () => {
-  currentSound = "rain";
-  video.src = "Sounds and videos/rain.mp4";
-  audio.src = "Sounds and videos/rain.mp3";
-  // Preload the new sources
-  video.load();
-  audio.load();
-  if (isPlaying) {
-    video.play().catch((e) => console.log("Video play error:", e));
-    audio.play().catch((e) => console.log("Audio play error:", e));
-  }
-});
-
-day.addEventListener("click", () => {
-  currentSound = "beach";
-  video.src = "Sounds and videos/beach.mp4";
-  audio.src = "Sounds and videos/beach.mp3";
-  // Preload the new sources
-  video.load();
-  audio.load();
-  if (isPlaying) {
-    video.play().catch((e) => console.log("Video play error:", e));
-    audio.play().catch((e) => console.log("Audio play error:", e));
-  }
-});
-
-// Time selection functionality
-smallerMins.addEventListener("click", () => {
-  totalSeconds = 120; // 2 minutes
-  updateTimeDisplay();
-  resetMeditation();
-});
-
-mediumMins.addEventListener("click", () => {
-  totalSeconds = 300; // 5 minutes
-  updateTimeDisplay();
-  resetMeditation();
-});
-
-longMins.addEventListener("click", () => {
-  totalSeconds = 600; // 10 minutes
-  updateTimeDisplay();
-  resetMeditation();
-});
-
-// Initialize with default values
-function initializeApp() {
-  // Set initial sources
-  video.src = "Sounds and videos/rain.mp4";
-  audio.src = "Sounds and videos/rain.mp3";
-
-  // Set video to loop and autoplay (muted)
-  video.loop = true;
-  video.muted = true;
-  audio.loop = true;
-
-  // Load initial sources
-  video.load();
-  audio.load();
-
-  // Set initial button text
-  playBtn.textContent = "Play";
-
-  // Initialize time display with correct format
-  updateTimeDisplay();
-}
-
-// Initialize the app when the page loads
-window.addEventListener("load", initializeApp);
+// Initialize display
+updateTimeDisplay();
